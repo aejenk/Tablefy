@@ -33,6 +33,16 @@
 //!     println!("{}", table);
 //! }
 //! ```
+//! 
+//! ```
+//! +-----------+------------+----------+-------+
+//! | something | otherthing | newthing | maybe |
+//! +===========+============+==========+=======+
+//! | a         | 2          | 3        |       |
+//! +-----------+------------+----------+-------+
+//! | b         | 3          | 4        | x     |
+//! +-----------+------------+----------+-------+
+//! ```
 //! This crate serves as an extension of [`prettytable`](https://docs.rs/prettytable-rs/0.8.0/prettytable/)
 //! by specifying a `Tablefy` trait in order to turn any struct (whose members implement Display) to turn into
 //! a [`Table`](https://docs.rs/prettytable-rs/0.8.0/prettytable/struct.Table.html) object.
