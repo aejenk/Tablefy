@@ -1,11 +1,15 @@
 [package]
 name = "tablefy"
 description = "An easy way to display any struct as a table!"
-version = "0.1.0"
+version = "0.1.1"
 license = "MPL-2.0"
 repository = "https://github.com/Calmynt/Tablefy"
+readme = "README.md"
+keywords = ["table", "format", "serialize", "struct", "derive"]
+categories = ["command-line-interface"]
 authors = ["Calmynt <mctech26@gmail.com>"]
 edition = "2018"
+maintenance = { status = "actively-developed" }
 
 [dependencies]
 prettytable-rs = "0.8.0"
