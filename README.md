@@ -1,5 +1,7 @@
 # tablefy
 
+[![tablefy](https://img.shields.io/crates/v/tablefy.svg)](https://crates.io/crates/tablefy)
+
 ```rust
 use tablefy_derive::Tablefy;
 use tablefy::Tablefy;
@@ -57,3 +59,5 @@ Currently there are two major improvements I have in mind for this crate.
 
 - Fields can be tagged to customize the header name.
 - Fields can be tagged to print using `{:?}` and `{:#?}` instead of `{}`
+
+License: MPL-2.0
