@@ -1,8 +1,8 @@
 use tablefy_derive::Tablefy;
-mod lib;
-use lib::{Tablefy, tablefy};
+use tablefy::Tablefy;
 use prettytable::{cell, row, Row};
 
+// This struct now implements the tablefy trait
 #[derive(Tablefy)]
 pub struct Basic {
     pub something: String,
@@ -12,6 +12,7 @@ pub struct Basic {
 }
 
 fn main() {
+    // Creating a vector of structs...
     let basic = vec![Basic {
         something: String::from("a"),
         otherthing: 2,
@@ -24,7 +25,9 @@ fn main() {
         maybe: Some(String::from("x"))
     }];
 
-    let table = tablefy(basic);
+    // Turning them into a Table struct...
+    let table = tablefy::into_table(basic);
 
+    // ...and printing the output! Table implements Display.
     println!("{}", table);
 }
