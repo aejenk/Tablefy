@@ -1,9 +1,12 @@
 [package]
 name = "tablefy"
+description = "An easy way to display any struct as a table!"
 version = "0.1.0"
+license = "MPL-2.0"
+repository = "https://github.com/Calmynt/Tablefy"
 authors = ["Calmynt <mctech26@gmail.com>"]
 edition = "2018"
 
 [dependencies]
 prettytable-rs = "0.8.0"
-tablefy_derive = {path = "tablefy_derive"}
+tablefy_derive = {path = "tablefy_derive", version = "0.1.0"}
