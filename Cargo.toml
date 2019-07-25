@@ -1,0 +1,9 @@
+[package]
+name = "tablefy"
+version = "0.1.0"
+authors = ["Calmynt <mctech26@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+prettytable-rs = "0.8.0"
+tablefy_derive = {path = "tablefy_derive"}
