@@ -18,9 +18,6 @@ pub struct Basic {
     pub maybe: Option<String>
 }
 
-impl Basic {
-}
-
 fn main() {
     // Creating a vector of structs...
     let basic = vec![Basic {
