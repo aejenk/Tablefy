@@ -28,7 +28,7 @@ pub fn derive(input: TokenStream) -> TokenStream {
         let name = &f.ident;
 
         quote! {
-            stringify!(#name)
+            String::from(stringify!(#name))
         }
     });
 
@@ -39,8 +39,9 @@ pub fn derive(input: TokenStream) -> TokenStream {
 
     // Constructs get_headers function
     let headerfn = quote! {
-        fn get_headers() -> Row {
-            return row![#(#header_names,)*] 
+        fn get_headers() -> Vec<String> {
+            use prettytable::{Row, Cell};
+            return vec![#(#header_names,)*] 
         }
     };
 
@@ -54,7 +55,7 @@ pub fn derive(input: TokenStream) -> TokenStream {
 
         if tname != "Option" {
             quote! {
-                let #fname = &self.#fname;
+                let #fname = format!("{}", &self.#fname);
             }
         }
         else {
@@ -68,12 +69,13 @@ pub fn derive(input: TokenStream) -> TokenStream {
         }
     });
 
-    // Constructs into_row function
-    let intorowfn = quote! {
-        fn into_row(&self) -> Row {
+    // Constructs into vec function
+    let intovecfn = quote! {
+        fn into_vec(&self) -> Vec<String> {
+            use prettytable::{Row, Cell};
             #(#cells)*
 
-            row![#(#valnames,)*]
+            vec![#(#valnames,)*]
         }
     };
 
@@ -82,7 +84,7 @@ pub fn derive(input: TokenStream) -> TokenStream {
         impl Tablefy for #name {
             #headerfn
 
-            #intorowfn
+            #intovecfn
         }
     };
 
