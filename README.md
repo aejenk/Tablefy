@@ -3,6 +3,8 @@
 [![tablefy](https://img.shields.io/crates/v/tablefy.svg)](https://crates.io/crates/tablefy)
 [![tablefy](https://docs.rs/tablefy/badge.svg)](https://docs.rs/crate/tablefy)
 
+To check for updates see [the changelog](CHANGELOG.md).
+
 ```rust
 use tablefy_derive::Tablefy;
 use tablefy::Tablefy;
