@@ -1,7 +1,6 @@
 //! ```
 //! use tablefy_derive::Tablefy;
 //! use tablefy::Tablefy;
-//! use prettytable::{cell, row, Row};
 //!
 //! // This struct now implements the tablefy trait
 //! #[derive(Tablefy)]
@@ -10,6 +9,9 @@
 //!     pub otherthing: i16,
 //!     pub newthing: i8,
 //!     pub maybe: Option<String>
+//! }
+//!
+//! impl Basic {
 //! }
 //!
 //! fn main() {
@@ -24,13 +26,18 @@
 //!         otherthing: 3,
 //!         newthing: 4,
 //!         maybe: Some(String::from("x"))
+//!     }, Basic {
+//!         something: String::from("c"),
+//!         otherthing: 5,
+//!         newthing: 8,
+//!         maybe: None
 //!     }];
 //!
 //!     // Turning them into a Table struct...
-//!     let table = tablefy::into_table(basic);
+//!     let table = tablefy::into_table(&basic);
 //!
-//!     // ...and printing the output! Table implements Display.
-//!     println!("{}", table);
+//!     // Or if you just want the string...
+//!     println!("{}", tablefy::into_string(&basic));
 //! }
 //! ```
 //! 
@@ -42,13 +49,15 @@
 //! +-----------+------------+----------+-------+
 //! | b         | 3          | 4        | x     |
 //! +-----------+------------+----------+-------+
+//! | c         | 5          | 8        |       |
+//! +-----------+------------+----------+-------+
 //! ```
 //! This crate serves as an extension of [`prettytable`](https://docs.rs/prettytable-rs/0.8.0/prettytable/)
 //! by specifying a `Tablefy` trait in order to turn any struct (whose members implement Display) to turn into
 //! a [`Table`](https://docs.rs/prettytable-rs/0.8.0/prettytable/struct.Table.html) object.
 //! 
 //! As a result, this means that `prettytable` is a dependency. You won't be able to use this crate without 
-//! also adding `prettytable`.
+//! also adding `prettytable`. 
 //! 
 //! ## Future updates
 //! Currently there are two major improvements I have in mind for this crate.
@@ -56,7 +65,7 @@
 //! - Fields can be tagged to customize the header name.
 //! - Fields can be tagged to print using `{:?}` and `{:#?}` instead of `{}`
 
-use prettytable::{Table, Row};
+use prettytable::{Table, Row, Cell};
 
 /// The main trait of the library. Has two main functions with which a table can be constructed.
 pub trait Tablefy {
@@ -64,9 +73,9 @@ pub trait Tablefy {
     /// 
     /// If derived, the headers will be the field names of the struct.
     /// Currently custom names aren't supported, but they may be implemented in the future.
-    fn get_headers() -> Row;
+    fn get_headers() -> Vec<String>;
 
-    /// Turns the contents of a struct into a row.
+    /// Turns the contents of a struct into a vector of strings.
     /// 
     /// If derived, all the contents are saved as a `String`. This is to facilitate displaying
     /// as a full table. However, in order for the derivation to work, all the fields of the struct
@@ -78,8 +87,13 @@ pub trait Tablefy {
     ///     age : i8,
     ///     location : String
     /// }
+    /// 
+    /// ...
+    /// 
+    /// 
+    /// let items = thing.into_vec();
     /// ```
-    fn into_row(&self) -> Row;
+    fn into_vec(&self) -> Vec<String>;
 }
 
 /// Function that turns a vector of Tablefy implementations into a full Table.
@@ -92,14 +106,28 @@ pub trait Tablefy {
 /// table.printstd();
 /// let tablestr = format!("{}", table);
 /// ```
-pub fn into_table<T : Tablefy> (data: Vec<T>) -> Table {
+pub fn into_table<T : Tablefy> (data: &Vec<T>) -> Table {
     let mut table = Table::new();
 
-    table.set_titles(T::get_headers());
+    table.set_titles(vec_to_row(T::get_headers()));
 
     for obj in data {
-        table.add_row(obj.into_row());
+        table.add_row(vec_to_row(obj.into_vec()));
     }
 
     table
+}
+
+/// Function that turns a vector of Tablefy implementations into a formatted string.
+/// 
+/// Purpose of this is to abstract the `Table` from the main program. Especially
+/// useful if all you need is the string itself.
+pub fn into_string<T : Tablefy> (data: &Vec<T>) -> String {
+    into_table(data).to_string()
+}
+
+/// Converts a vector into a Row.
+/// Meant to be used internally to facilitate `Table` construction.
+fn vec_to_row(data: Vec<String>) -> Row {
+    Row::new(data.iter().map(|s| Cell::new(s)).collect())
 }

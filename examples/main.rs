@@ -1,6 +1,5 @@
 use tablefy_derive::Tablefy;
 use tablefy::Tablefy;
-use prettytable::{cell, row, Row};
 
 // This struct now implements the tablefy trait
 #[derive(Tablefy)]
@@ -9,6 +8,9 @@ pub struct Basic {
     pub otherthing: i16,
     pub newthing: i8,
     pub maybe: Option<String>
+}
+
+impl Basic {
 }
 
 fn main() {
@@ -23,11 +25,16 @@ fn main() {
         otherthing: 3,
         newthing: 4,
         maybe: Some(String::from("x"))
+    }, Basic {
+        something: String::from("c"),
+        otherthing: 5,
+        newthing: 8,
+        maybe: None
     }];
 
     // Turning them into a Table struct...
-    let table = tablefy::into_table(basic);
+    let table = tablefy::into_table(&basic);
 
-    // ...and printing the output! Table implements Display.
-    println!("{}", table);
+    // Or if you just want the string...
+    println!("{}", tablefy::into_string(&basic));
 }
