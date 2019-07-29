@@ -20,12 +20,17 @@ pub fn derive(input: TokenStream) -> TokenStream {
     // Gets the Field of the struct
     let fields = extract_field_names(&ast.data);
 
+    // eprintln!("{:#?}", fields);
+    // panic!("RANDOMPANIC");
+
     // Gets the Type of the struct
     let types  = extract_types(&fields);
 
     // Constructs the name of the headers
     let header_names = fields.iter().map(|f| {
         let name = &f.ident;
+
+        get_field_header_name(f, name.clone().unwrap());
 
         quote! {
             String::from(stringify!(#name))
@@ -103,6 +108,63 @@ fn extract_field_names(data: &Data) -> &Punctuated<Field, syn::token::Comma>{
     } else {
         unimplemented!()
     }
+}
+
+fn get_field_header_name(field: &Field, default: syn::Ident) -> String {
+    for attr in &field.attrs {
+        let segs = &attr.path.segments;
+
+        for seg in segs {
+            let attrname = seg.ident.to_string();
+
+            if attrname == "name" {
+                return parse_header_param(attr).to_string();
+            };
+        }
+    };
+
+    default.to_string()
+}
+
+fn parse_header_param(attr: &syn::Attribute) -> proc_macro2::Ident {
+    let t : Vec<proc_macro2::TokenTree> = attr.tts.clone().into_iter().collect();
+
+    if let proc_macro2::TokenTree::Group(x) = &t[0]{
+        if let proc_macro2::TokenTree::Ident(i) = &x.stream().clone().into_iter().collect::<Vec<proc_macro2::TokenTree>>()[0]{
+            if i.to_string() != "name" {
+                panic!("Only the following format is valid: #[header(name = \"<string>\"");
+            }
+        }
+        else {
+            panic!("Only the following format is valid: #[header(name = \"<string>\"");
+        }
+    };
+
+    if let proc_macro2::TokenTree::Group(x) = &t[1]{
+        if let proc_macro2::TokenTree::Punct(i) = &x.stream().clone().into_iter().collect::<Vec<proc_macro2::TokenTree>>()[0]{
+            if i.to_string() != "=" {
+                panic!("Only the following format is valid: #[header(name = \"<string>\"");
+            }
+        }
+        else {
+            panic!("Only the following format is valid: #[header(name = \"<string>\"");
+        }
+    };
+
+    if let proc_macro2::TokenTree::Group(x) = &t[2]{
+        if let proc_macro2::TokenTree::Literal(i) = &x.stream().clone().into_iter().collect::<Vec<proc_macro2::TokenTree>>()[0]{
+            if i.to_string() != "name" {
+                eprintln!("{}", i);
+                panic!("Only the following format is valid: #[header(name = \"<string>\"");
+            }
+        }
+        else {
+            panic!("Only the following format is valid: #[header(name = \"<string>\"");
+        }
+    };
+
+    panic!("Fail in parse_header_param: Attribute not found. One of the if-lets failed.");
+    unimplemented!()
 }
 
 /// Extracts the Types of the fields from the AST
