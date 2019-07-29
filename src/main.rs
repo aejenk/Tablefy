@@ -1,3 +1,4 @@
+#![feature(custom_attribute)]
 use tablefy_derive::Tablefy;
 use tablefy::Tablefy;
 

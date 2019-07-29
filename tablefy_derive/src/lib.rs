@@ -3,7 +3,6 @@
 //! Currently only works for structs whose elements implement the display trait.
 //! In the future, support may be added for Debug/Pretty printing, and customizing the 
 //! names of the table headers.
-
 extern crate proc_macro;
 
 use proc_macro::TokenStream;
