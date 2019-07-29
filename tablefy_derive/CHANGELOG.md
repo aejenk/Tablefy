@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.2.0 (29/07/2019)
+- Introduced the `#[header(name = <str>)]` attribute that can be added on any field within a struct that derives the `Tablefy` trait. To see it in use, [check the parent crate](../)
+
 ## Version 0.1.1 (27/07/2019)
 
 - Changed functions to return `Vec<String>` instead of `Row`.
