@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 0.1.3 (29/07/2019)
+
+- Updated examples, documentation and `README` to reflect the addition and use of `#[header(name = <str>)]`.
+
 ## Version 0.1.2 (27/07/2019)
 
 - Imports no longer forced on any file including `#[derive(Tablefy)]`

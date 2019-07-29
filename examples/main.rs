@@ -4,9 +4,16 @@ use tablefy::Tablefy;
 // This struct now implements the tablefy trait
 #[derive(Tablefy)]
 pub struct Basic {
+
+    #[header(name = "Hmm... Nice Header")]
     pub something: String,
+
+    #[header(name = "We Have Here!")]
     pub otherthing: i16,
+
+    #[header(name = "Don't You Agree?")]
     pub newthing: i8,
+
     pub maybe: Option<String>
 }
 
