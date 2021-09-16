@@ -1,0 +1,17 @@
+[package]
+name = "tablefy_derive"
+description = "A procedural macro to help Tablefy any struct!"
+version = "0.2.1"
+readme = "README.md"
+license = "MPL-2.0"
+repository = "https://github.com/Calmynt/Tablefy"
+authors = ["ENBYSS"]
+edition = "2018"
+
+[lib]
+proc-macro = true
+
+[dependencies]
+syn = {version = "0.15.41", features = ["extra-traits"]}
+quote = "0.6.13"
+proc-macro2 = "0.4.30"
