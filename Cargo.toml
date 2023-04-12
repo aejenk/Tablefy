@@ -12,6 +12,6 @@ edition = "2018"
 maintenance = { status = "actively-developed" }
 
 [dependencies]
-prettytable-rs = "0.8.0"
+prettytable-rs = "0.10.0"
 # tablefy_derive = "0.2.1"
 # tablefy_derive = {path = "tablefy_derive"}
